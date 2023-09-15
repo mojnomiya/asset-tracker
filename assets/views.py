@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
-from .serializers import AssetsSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView
+from .serializers import AssetsSerializer, CheckOutLogSerializer
 from employees.models import Employee
 from .models import Assets, CheckOutLog
 
@@ -57,3 +57,20 @@ class ReturnAssetView(CreateAPIView):
         )
 
         return Response({'message': 'Asset returned successfully'}, status=status.HTTP_201_CREATED)
+    
+
+class AssetLogsView(ListAPIView):
+    serializer_class = CheckOutLogSerializer
+    def get_queryset(self):
+        asset_id = self.kwargs.get('asset_id')
+        employee_id = self.kwargs.get('employee_id')
+
+        if asset_id is not None:
+            # logs based on the asset's ID
+            return CheckOutLog.objects.filter(device_id=asset_id)
+        elif employee_id is not None:
+            # logs based on the employee's ID
+            return CheckOutLog.objects.filter(employee_id=employee_id)
+        else:
+            # all logs if neither asset_id nor employee_id is provided
+            return CheckOutLog.objects.all()
