@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import AssetsCategory, Assets, CheckOutLog
 
-# Register your models here.
+# Registering models to django-admin.
+
+admin.site.register(AssetsCategory)
+admin.site.register(Assets)
+admin.site.register(CheckOutLog)
