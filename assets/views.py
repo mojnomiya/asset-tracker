@@ -52,7 +52,7 @@ class ReturnAssetView(CreateAPIView):
         CheckOutLog.objects.create(
                 device=asset,
                 employee=employee,
-                check_out_date=asset.date_added,
+                return_date=asset.date_added,
                 condition_at_checkout=asset.condition
         )
 
