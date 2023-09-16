@@ -60,6 +60,9 @@ class ReturnAssetView(CreateAPIView):
     
 
 class AssetLogsView(ListAPIView):
+    """
+    This API returns asset logs filtered by employee_id or asset_id. If logs are requested using employee id it will return all the asset logs associated with the employee. same goes to the case of asse.
+    """
     serializer_class = CheckOutLogSerializer
     def get_queryset(self):
         asset_id = self.kwargs.get('asset_id')
